@@ -54,7 +54,7 @@ def load_eda_data():
 
 @st.cache_data
 def load_reference():
-    ca = pd.read_csv(DATA_PATH + "community_area_ref.csv")
+    ca = pd.read_csv(DATA_PATH + "community_area_name.csv")
     return ca.rename(columns={"AREA_NUMBE": "community_area", "COMMUNITY": "area_name"})
 
 @st.cache_data
