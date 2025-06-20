@@ -28,9 +28,9 @@ def download_from_gdrive(file_id, output_path):
 
 # File IDs from Google Drive
 GDRIVE_FILES = {
-    "model_data_ready.csv": "1Xpc0nxQp0BMLfN4xvG4CmGwm7O1MTMu4",
+    "model_data_ready.csv": "14VYvyvczSho5ezmNSzWzq9AJERU0jjPp",
     "filtered_data.csv": "1sBj3AvpPibqWKKHq-r0HOmfmrtTuKyZH",
-    "model_rf.pkl": "1IQUSMDlP5M6pltUu1Nkec-92583FIvNy"
+    "model_rf.pkl": "1bXPaMYhxyp9UNdJbltviGPljIRjVrxL3"
 }
 
 # Download files only if not exist
@@ -66,6 +66,10 @@ def load_geojson():
 def load_model_data():
     return pd.read_csv("model_data_ready.csv")  # from GDrive root
 
+@st.cache_data
+def load_raw_data():
+    return pd.read_csv("filtered_data.csv")  # File from Google Drive
+
 @st.cache_resource
 def load_model(model_name):
     return joblib.load(model_name)  # from GDrive root
@@ -87,7 +91,7 @@ with loading_placeholder.container():
     ca_df = load_reference()
     geojson_data = load_geojson()
     df_model = load_model_data()
-    df_raw = load_raw_data()
+    df_raw = filtered_data()
     historical_lookup = load_historical_lookup()
 
 loading_placeholder.empty() 
