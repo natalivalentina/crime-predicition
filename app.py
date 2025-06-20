@@ -15,10 +15,11 @@ import gdown
 import os
 
 # -----------------------------
+# Page Config
 st.set_page_config("Chicago Crime Dashboard", "👮", layout="wide")
 
 # -----------------------------
-# Define GDrive download helper
+# Download files from Google Drive
 @st.cache_resource
 def download_from_gdrive(file_id, output_path):
     if not os.path.exists(output_path):
@@ -37,7 +38,7 @@ for filename, file_id in GDRIVE_FILES.items():
     download_from_gdrive(file_id, filename)
 
 # -----------------------------
-# USE LOCAL & DOWNLOADED FILES
+# Data Loaders
 DATA_PATH = "data/"
 
 @st.cache_data
@@ -89,9 +90,10 @@ with loading_placeholder.container():
     df_raw = load_raw_data()
     historical_lookup = load_historical_lookup()
 
-loading_placeholder.empty()  # Hapus pesan loading setelah semua selesai
+loading_placeholder.empty() 
 
 # -----------------------------
+# Sidebar Navigation
 with st.sidebar:
     st.markdown("""
         <style>
@@ -261,13 +263,11 @@ if menu == "Home":
 
         ax_map.tick_params(axis='both', labelsize=9)
 
-        # Colorbar manual
         sm = mpl.cm.ScalarMappable(cmap=cmap, norm=norm)
         sm._A = []
         cbar = fig_map.colorbar(sm, ax=ax_map, orientation="vertical", shrink=0.6)
         cbar.ax.tick_params(labelsize=9)
 
-        # Export to buffer and display centered
         buf = io.BytesIO()
         fig_map.savefig(buf, format="png", bbox_inches='tight', dpi=120)
         buf.seek(0)
@@ -308,7 +308,7 @@ if menu == "Model Prediction":
             9: "September", 10: "October", 11: "November", 12: "December"
         }
     
-        # --- Sidebar Filters ---
+        # Sidebar Filters
         with st.sidebar:
             st.markdown("### 🎯 Filter Input")
             available_years = list(range(2020, 2031))
@@ -325,7 +325,6 @@ if menu == "Model Prediction":
             selected_area = area_df[area_df['area_name'] == selected_area_name]['community_area'].values[0]
             selected_algo = st.selectbox('Select Algorithm', ['Random Forest', 'XGBoost', 'LightGBM'])
     
-        # --- Load encoder & model ---
         encoders = joblib.load("data/encoders.pkl")
     
         df_filtered = df_raw[
@@ -407,12 +406,12 @@ if menu == "Model Prediction":
     
         # Model Metrics (manual)
         model_metrics = {
-            "Random Forest": {"mae": 3.62, "smape": 27.75, "r2": 0.93},
-            "XGBoost": {"mae": 4.75, "smape": 33.25, "r2": 0.87},
-            "LightGBM": {"mae": 6.07, "smape": 38.13, "r2": 0.77}
+            "Random Forest": {"mae": 3.62, "rmse": 4.12, "r2": 0.93},
+            "XGBoost": {"mae": 4.75, "rmse": 5.33, "r2": 0.87},
+            "LightGBM": {"mae": 6.07, "rmse": 6.97, "r2": 0.77}
         }
         metrics = model_metrics[selected_algo]
-        mae, smape, r2 = metrics['mae'], metrics['smape'], metrics['r2']
+        mae, rmse, r2 = metrics['mae'], metrics['rmse'], metrics['r2']
         fit_text = "Strong fit" if r2 >= 0.85 else "Moderate fit" if r2 >= 0.7 else "Weak fit"
     
         # Display Output
