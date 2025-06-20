@@ -91,7 +91,7 @@ with loading_placeholder.container():
     ca_df = load_reference()
     geojson_data = load_geojson()
     df_model = load_model_data()
-    df_raw = filtered_data()
+    df_raw = load_raw_data()
     historical_lookup = load_historical_lookup()
 
 loading_placeholder.empty() 
