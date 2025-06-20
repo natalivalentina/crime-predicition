@@ -58,11 +58,6 @@ def load_reference():
     return ca.rename(columns={"AREA_NUMBE": "community_area", "COMMUNITY": "area_name"})
 
 @st.cache_data
-def load_geojson():
-    with open(DATA_PATH + "chicago_community_area.geojson", "r") as f:
-        return json.load(f)
-
-@st.cache_data
 def load_model_data():
     return pd.read_csv("model_data_ready.csv")  # from GDrive root
 
