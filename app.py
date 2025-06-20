@@ -324,7 +324,7 @@ if menu == "Model Prediction":
             selected_month = [k for k, v in month_dict.items() if v == selected_month_display][0]
     
             selected_crime = st.selectbox('Select Crime Type', sorted(df_model['primary_type'].dropna().unique()))
-            area_df = df_model[['community_area', 'area_name']].drop_duplicates().sort_values('area_name')
+            area_df = df_model[['community_area']].drop_duplicates().merge(ca_df, on='community_area', how='left').sort_values('area_name')
             selected_area_name = st.selectbox("Select Community Area", area_df['area_name'])
             selected_area = area_df[area_df['area_name'] == selected_area_name]['community_area'].values[0]
             selected_algo = st.selectbox('Select Algorithm', ['Random Forest', 'XGBoost', 'LightGBM'])
