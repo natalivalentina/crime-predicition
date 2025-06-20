@@ -30,7 +30,7 @@ def download_from_gdrive(file_id, output_path):
 GDRIVE_FILES = {
     "model_data_ready.csv": "14VYvyvczSho5ezmNSzWzq9AJERU0jjPp",
     "filtered_data.csv": "1sBj3AvpPibqWKKHq-r0HOmfmrtTuKyZH",
-    "model_rf.pkl": "1bXPaMYhxyp9UNdJbltviGPljIRjVrxL3"
+    "model_rf.pkl": "1IQUSMDlP5M6pltUu1Nkec-92583FIvNy"
 }
 
 # Download files only if not exist
